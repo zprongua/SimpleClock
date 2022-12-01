@@ -3,15 +3,17 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.awt.event.ItemEvent;
+import java.util.TimeZone;
 
 
 public class SimpleClock extends JFrame implements ItemListener {
     
-        Calendar calendar;
+        Calendar calendar = Calendar.getInstance();
         SimpleDateFormat timeFormat;
         SimpleDateFormat dayFormat;
         SimpleDateFormat dateFormat;
@@ -19,6 +21,7 @@ public class SimpleClock extends JFrame implements ItemListener {
         JLabel timeLabel;
         JLabel dayLabel;
         JLabel dateLabel;
+        JToggleButton timeZoneToggle;
         JToggleButton militaryToggle;
         String time;
         String day;
@@ -30,8 +33,10 @@ public class SimpleClock extends JFrame implements ItemListener {
             this.setLayout(new FlowLayout());
             this.setSize(450, 220);
             this.setResizable(false);
+
+            calendar.getTimeZone();
     
-            timeFormat = new SimpleDateFormat("hh:mm:ss a");
+            timeFormat = new SimpleDateFormat(" hh:mm:ss a ");
             dayFormat=new SimpleDateFormat("EEEE");
             dateFormat=new SimpleDateFormat("dd MMMMM, yyyy");
             timeLabel = new JLabel();
@@ -45,10 +50,14 @@ public class SimpleClock extends JFrame implements ItemListener {
             dateLabel=new JLabel();
             dateLabel.setFont(new Font("Ink Free",Font.BOLD,30));
 
+            timeZoneToggle = new JToggleButton("GMT");
+            timeZoneToggle.addItemListener(this);
+
             militaryToggle = new JToggleButton("24hr");
             militaryToggle.addItemListener(this);
 
             this.add(timeLabel);
+            this.add(timeZoneToggle);
             this.add(dayLabel);
             this.add(militaryToggle);
             this.add(dateLabel);
@@ -84,10 +93,28 @@ public class SimpleClock extends JFrame implements ItemListener {
         if (militaryToggle.isSelected()) {
             militaryToggle.setText("12hr");
             timeFormat = new SimpleDateFormat("   kk:mm:ss   ");
+            TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
         }
-        else {
+        if (!militaryToggle.isSelected()) {
             militaryToggle.setText("24hr");
-            timeFormat = new SimpleDateFormat("hh:mm:ss a");
+            timeFormat = new SimpleDateFormat(" hh:mm:ss a ");
         }
+        if (timeZoneToggle.isSelected()) {
+            timeZoneToggle.setText("EST");
+            TimeZone.setDefault(TimeZone.getTimeZone("Australia/Brisbane"));
+            dayFormat = new SimpleDateFormat("EEEE");
+            dateFormat = new SimpleDateFormat("dd MMMMM, yyyy");
+            if (militaryToggle.isSelected()) timeFormat = new SimpleDateFormat("   kk:mm:ss   ");
+            if (!militaryToggle.isSelected()) timeFormat = new SimpleDateFormat(" hh:mm:ss a ");
+        }
+        if (!timeZoneToggle.isSelected()) {
+            timeZoneToggle.setText("GMT");
+            TimeZone.setDefault(TimeZone.getTimeZone("America/New_York"));
+            dayFormat = new SimpleDateFormat("EEEE");
+            dateFormat = new SimpleDateFormat("dd MMMMM, yyyy");
+            if (militaryToggle.isSelected()) timeFormat = new SimpleDateFormat("   kk:mm:ss   ");
+            if (!militaryToggle.isSelected()) timeFormat = new SimpleDateFormat(" hh:mm:ss a ");
+        }
+        System.out.println(TimeZone.getDefault());
     }
 }
