@@ -61,30 +61,28 @@ public class SimpleClock extends JFrame implements ItemListener {
             this.add(dateLabel);
             this.setVisible(true);
 
-//            SimpleClock obj = new SimpleClock();
-//            Thread thread = new Thread(obj);
-//            thread.start();
-            setTimer();
+            run();
+//            setTimer();
         }
 
-    public void setTimer() {
-            while (true) {
-                time = timeFormat.format(Calendar.getInstance().getTime());
-                timeLabel.setText(time);
-    
-                day = dayFormat.format(Calendar.getInstance().getTime());
-                dayLabel.setText(day);
-    
-                date = dateFormat.format(Calendar.getInstance().getTime());
-                dateLabel.setText(date);
-    
-                try {
-                    Thread.sleep(100);
-                } catch (Exception e) {
-                    e.getStackTrace();
-                }
-            }
-        }
+//    public void setTimer() {
+//            while (true) {
+//                time = timeFormat.format(Calendar.getInstance().getTime());
+//                timeLabel.setText(time);
+//
+//                day = dayFormat.format(Calendar.getInstance().getTime());
+//                dayLabel.setText(day);
+//
+//                date = dateFormat.format(Calendar.getInstance().getTime());
+//                dateLabel.setText(date);
+//
+//                try {
+//                    Thread.sleep(100);
+//                } catch (Exception e) {
+//                    e.getStackTrace();
+//                }
+//            }
+//        }
         public static void main(String[] args) {
             new SimpleClock();
         }
@@ -118,15 +116,25 @@ public class SimpleClock extends JFrame implements ItemListener {
         }
     }
 
-//    @Override
-//    public void run() {
-//        time = timeFormat.format(Calendar.getInstance().getTime());
-//        timeLabel.setText(time);
-//
-//        day = dayFormat.format(Calendar.getInstance().getTime());
-//        dayLabel.setText(day);
-//
-//        date = dateFormat.format(Calendar.getInstance().getTime());
-//        dateLabel.setText(date);
-//    }
+
+    public void run() {
+        time = timeFormat.format(Calendar.getInstance().getTime());
+        timeLabel.setText(time);
+
+        day = dayFormat.format(Calendar.getInstance().getTime());
+        dayLabel.setText(day);
+
+        date = dateFormat.format(Calendar.getInstance().getTime());
+        dateLabel.setText(date);
+
+        Thread thread = new Thread(this::run);
+        thread.start();
+
+        try {
+            Thread.sleep(100);
+        } catch (Exception e) {
+            e.getStackTrace();
+        }
+        super.repaint();
+    }
 }
