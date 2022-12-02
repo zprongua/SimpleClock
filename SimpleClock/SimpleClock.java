@@ -1,9 +1,7 @@
-//package SimpleClock;
+package SimpleClock;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -62,7 +60,10 @@ public class SimpleClock extends JFrame implements ItemListener {
             this.add(militaryToggle);
             this.add(dateLabel);
             this.setVisible(true);
-    
+
+//            SimpleClock obj = new SimpleClock();
+//            Thread thread = new Thread(obj);
+//            thread.start();
             setTimer();
         }
 
@@ -78,7 +79,7 @@ public class SimpleClock extends JFrame implements ItemListener {
                 dateLabel.setText(date);
     
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(100);
                 } catch (Exception e) {
                     e.getStackTrace();
                 }
@@ -101,7 +102,7 @@ public class SimpleClock extends JFrame implements ItemListener {
         }
         if (timeZoneToggle.isSelected()) {
             timeZoneToggle.setText("EST");
-            TimeZone.setDefault(TimeZone.getTimeZone("Australia/Brisbane"));
+            TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
             dayFormat = new SimpleDateFormat("EEEE");
             dateFormat = new SimpleDateFormat("dd MMMMM, yyyy");
             if (militaryToggle.isSelected()) timeFormat = new SimpleDateFormat("   kk:mm:ss   ");
@@ -115,6 +116,17 @@ public class SimpleClock extends JFrame implements ItemListener {
             if (militaryToggle.isSelected()) timeFormat = new SimpleDateFormat("   kk:mm:ss   ");
             if (!militaryToggle.isSelected()) timeFormat = new SimpleDateFormat(" hh:mm:ss a ");
         }
-        System.out.println(TimeZone.getDefault());
     }
+
+//    @Override
+//    public void run() {
+//        time = timeFormat.format(Calendar.getInstance().getTime());
+//        timeLabel.setText(time);
+//
+//        day = dayFormat.format(Calendar.getInstance().getTime());
+//        dayLabel.setText(day);
+//
+//        date = dateFormat.format(Calendar.getInstance().getTime());
+//        dateLabel.setText(date);
+//    }
 }
